@@ -1,9 +1,5 @@
-
 'use strict';
 
-console.log('it works!');
-
-// make a constructor for photo
 function Photo(name, filename){
   this.name = name;
   this.src = './img/' + filename;
@@ -47,7 +43,6 @@ function getRandomIndex() {
 
 function displayPhotos() {
   var el ;
-
   photos = photos.concat(photosOnSecondToLastScreen);
   photosOnSecondToLastScreen = photosOnPreviousScreen;
   photosOnPreviousScreen = photosOnScreen;
@@ -59,12 +54,11 @@ function displayPhotos() {
 
     el.src = nextPhoto[0].src;
     nextPhoto[0].displayed++;
-
-
   }
 }
 
 function renderThreePhotos(event) {
+  console.log(event);
   photosOnScreen[event.target.id].clickCount++;
   displayPhotos();
   console.log(photosOnScreen[event.target.id]);
@@ -72,12 +66,10 @@ function renderThreePhotos(event) {
   if(count === 25) {
     displayChart();
     displayChartTwo();
-    // alert('All done!');
   }
 }
 
-function displayChart() {
-  console.log('display-chart-running')
+function getChart(){
   var chartLabel = [];
   var clicks = [];
   var displays = [];
@@ -87,22 +79,39 @@ function displayChart() {
     displays.push(photos[i].displayCount);
   }
 
+  var chart = {
+    chartLabel: chartLabel,
+    clicks: clicks,
+    displays: displays
+  };
+
+  try {
+    localStorage.setItem('chart', JSON.stringify(chart));
+  } catch(e) {
+    console.error(e);
+  }
+  return chart;
+}
+
+function displayChart() {
+  console.log('display-chart-running');
+  var chart = getChart();
   var canvas = document.getElementById('chart-canvas1');
   var ctx = canvas.getContext('2d');
   var data = {
-    labels: chartLabel,
+    labels: chart.chartLabel,
     datasets:[{
       label: 'Clicks',
       backgroundColor:'#42826C ',
       borderColor: '#002F32 ',
       borderWidth: 1,
-      data: clicks},
+      data: chart.clicks},
     {
       label: 'Displayed',
       backgroundColor: '#A5C77F ',
       borderColor: '#002F32 ',
       borderWidth: 1,
-      data: displays,}
+      data: chart.displays,}
     ]
   };
   canvas.height = '500';
@@ -139,7 +148,7 @@ function displayChartTwo() {
     data: data,
   });
 }
-displayPhotos();
 
+displayPhotos();
 var photoClick = document.getElementById('image-container');
 photoClick.addEventListener('click', renderThreePhotos);

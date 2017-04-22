@@ -18,6 +18,7 @@ html, body {
 #image-container img {
   width: 33%;
   height: auto;
+  height: 500px;
 }
 
 canvas {
