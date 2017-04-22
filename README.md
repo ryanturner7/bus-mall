@@ -1,3 +1,3 @@
 # bus mall
 
-I collaborated with Rylee on this assignment.
+images, chart and local storage.
