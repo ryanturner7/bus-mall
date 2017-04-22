@@ -70,6 +70,13 @@ function renderThreePhotos(event) {
 }
 
 function getChart(){
+  var localChart = localStorage.getItem('chart');
+
+  if(localChart) {
+    localChart = JSON.parse(localChart);
+    return localChart;
+  }
+
   var chartLabel = [];
   var clicks = [];
   var displays = [];
@@ -90,6 +97,7 @@ function getChart(){
   } catch(e) {
     console.error(e);
   }
+
   return chart;
 }
 
@@ -102,14 +110,14 @@ function displayChart() {
     labels: chart.chartLabel,
     datasets:[{
       label: 'Clicks',
-      backgroundColor:'#42826C ',
-      borderColor: '#002F32 ',
+      backgroundColor:'#42826C',
+      borderColor: '#002F32',
       borderWidth: 1,
       data: chart.clicks},
     {
       label: 'Displayed',
-      backgroundColor: '#A5C77F ',
-      borderColor: '#002F32 ',
+      backgroundColor: '#A5C77F',
+      borderColor: '#002F32',
       borderWidth: 1,
       data: chart.displays,}
     ]
@@ -130,13 +138,13 @@ function displayChartTwo() {
   }
   var canvas = document.getElementById('chart-canvas2');
   var ctx = canvas.getContext('2d');
-  Chart.defaults.global.defaultFontColor = '#000000 ';
+  Chart.defaults.global.defaultFontColor = '#000000';
   var data = {
     labels: chartLabel,
     datasets:[{
       label: '% of Clicks when Viewed',
-      backgroundColor:'#002F32 ',
-      borderColor: '#42826C ',
+      backgroundColor:'#002F32',
+      borderColor: '#42826C',
       borderWidth: 1,
       data: percent,}
     ]
@@ -149,6 +157,14 @@ function displayChartTwo() {
   });
 }
 
-displayPhotos();
-var photoClick = document.getElementById('image-container');
-photoClick.addEventListener('click', renderThreePhotos);
+
+var localChart = localStorage.getItem('chart');
+
+if(localChart) {
+  displayChart();
+  displayChartTwo();
+} else {
+  displayPhotos();
+  var photoClick = document.getElementById('image-container');
+  photoClick.addEventListener('click', renderThreePhotos);
+}
