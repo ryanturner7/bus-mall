@@ -1,4 +1,3 @@
-
 'use strict';
 
 console.log('it works!');
@@ -11,7 +10,16 @@ function Photo(name, filename){
   this.displayCount = 0;
 }
 
-var count = 0;
+Photo.prototype.shown = function(){
+  this.displayCount = this.displayCount + 1;
+};
+
+Photo.prototype.onClick = function(){
+  this.clickCount = this.clickCount + 1;
+  renderThreePhotos(getThreeRandomPhotos());
+};
+
+var count = -1;
 var photosOnSecondToLastScreen = [];
 var photosOnPreviousScreen = [];
 var photosOnScreen = [];
@@ -41,105 +49,74 @@ var photos = [
   new Photo('wine-glass', 'wine-glass.jpg'),
 ];
 
-function getRandomIndex() {
-  return Math.floor(Math.random() * photos.length);
+function getRandomIndex(list) {
+  return Math.floor(Math.random() * list.length);
 }
 
-function displayPhotos() {
-  var el ;
+function getThreeRandomPhotos(){
 
-  photos = photos.concat(photosOnSecondToLastScreen);
   photosOnSecondToLastScreen = photosOnPreviousScreen;
   photosOnPreviousScreen = photosOnScreen;
   photosOnScreen = [];
-  for (var i = 0; i < 3; i++) {
-    var nextPhoto = photos.splice(getRandomIndex(photos), 1);
-    photosOnScreen = photosOnScreen.concat(nextPhoto);
-    el = document.getElementById('' + i);
 
-    el.src = nextPhoto[0].src;
-    nextPhoto[0].displayed++;
+  var nonoPhotos = photosOnPreviousScreen.concat(photosOnSecondToLastScreen);
+  var indexes = [getRandomIndex(photos), getRandomIndex(photos), getRandomIndex(photos)];
 
-
-  }
-}
-
-function renderThreePhotos(event) {
-  photosOnScreen[event.target.id].clickCount++;
-  displayPhotos();
-  console.log(photosOnScreen[event.target.id]);
-  count++;
-  if(count === 25) {
-    displayChart();
-    displayChartTwo();
-    // alert('All done!');
-  }
-}
-
-function displayChart() {
-  console.log('display-chart-running')
-  var chartLabel = [];
-  var clicks = [];
-  var displays = [];
-  for (var i = 0; i <photos.length; i++) {
-    chartLabel.push(photos[i].name);
-    clicks.push(photos[i].clickCount);
-    displays.push(photos[i].displayCount);
+  for (var i=0; i < indexes.length; i++){
+    var isUnique = false;
+    while(!isUnique) {
+      if(nonoPhotos.indexOf(photos[indexes[i]]) > -1) {
+        indexes[i] = getRandomIndex(photos);
+      } else {
+        isUnique = true;
+      }
+    }
   }
 
-  var canvas = document.getElementById('chart-canvas1');
-  var ctx = canvas.getContext('2d');
-  var data = {
-    labels: chartLabel,
-    datasets:[{
-      label: 'Clicks',
-      backgroundColor:'#42826C ',
-      borderColor: '#002F32 ',
-      borderWidth: 1,
-      data: clicks},
-    {
-      label: 'Displayed',
-      backgroundColor: '#A5C77F ',
-      borderColor: '#002F32 ',
-      borderWidth: 1,
-      data: displays,}
-    ]
-  };
-  canvas.height = '500';
-  canvas.width = '500';
-  var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-  });
-}
-function displayChartTwo() {
-  var chartLabel = [];
-  var percent= [];
-  for (var i = 0; i <photos.length; i++) {
-    chartLabel.push(photos[i].name);
-    percent.push(Math.floor((photos[i].clickCount/photos[i].displayCount)*100));
-  }
-  var canvas = document.getElementById('chart-canvas2');
-  var ctx = canvas.getContext('2d');
-  Chart.defaults.global.defaultFontColor = '#000000 ';
-  var data = {
-    labels: chartLabel,
-    datasets:[{
-      label: '% of Clicks when Viewed',
-      backgroundColor:'#002F32 ',
-      borderColor: '#42826C ',
-      borderWidth: 1,
-      data: percent,}
-    ]
-  };
-  canvas.height = '500';
-  canvas.width = '500';
-  var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-  });
-}
-displayPhotos();
+  var nextPhoto = photos.slice(indexes[0], indexes[0] + 1);
+  nextPhoto[0].shown();
+  photosOnScreen = photosOnScreen.concat(nextPhoto);
+  nextPhoto = photos.slice(indexes[1], indexes[1] + 1);
+  nextPhoto[0].shown();
+  photosOnScreen = photosOnScreen.concat(nextPhoto);
+  nextPhoto = photos.slice(indexes[2], indexes[2] + 1);
+  nextPhoto[0].shown();
+  photosOnScreen = photosOnScreen.concat(nextPhoto);
 
-var photoClick = document.getElementById('image-container');
-photoClick.addEventListener('click', renderThreePhotos);
+  return photosOnScreen;
+}
+
+function renderThreePhotos(threeImages) {
+  if(count >= 25) {
+
+
+    alert('All done!');
+
+
+  } else {
+    var container = document.createElement('div');
+    container.setAttribute('id', 'container');
+
+    for (var i = 0; i < threeImages.length; i++){
+      var img = document.createElement('img');
+      img.setAttribute('src', threeImages[i].src);
+      img.setAttribute('id', i);
+      container.appendChild(img);
+    }
+
+    var curContainer = document.getElementById('container');
+    if(curContainer) {
+      document.body.removeChild(curContainer);
+    }
+
+    document.body.appendChild(container);
+
+    for (i = 0; i < threeImages.length; i++){
+      img = document.getElementById(i);
+      img.addEventListener('click', threeImages[i].onClick.bind(threeImages[i]));
+    }
+
+    count++;
+  }
+}
+renderThreePhotos(getThreeRandomPhotos());
