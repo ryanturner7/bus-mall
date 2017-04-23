@@ -10,6 +10,16 @@ html, body {
   background: beige;
 }
 
+.app {
+  width: 960px;
+
+}
+
+#image-container img {
+  width: 33%;
+  height: auto;
+}
+
 canvas {
   width: 500px;
   height: 500px;
@@ -29,4 +39,5 @@ canvas {
   flex: 1;
   margin: 20px;
   width: 200px;
+
 }
