@@ -1,9 +1,6 @@
 
 'use strict';
 
-console.log('it works!');
-
-// make a constructor for photo
 function Photo(name, filename){
   this.name = name;
   this.src = './img/' + filename;
@@ -59,8 +56,6 @@ function displayPhotos() {
 
     el.src = nextPhoto[0].src;
     nextPhoto[0].displayed++;
-
-
   }
 }
 
@@ -69,15 +64,13 @@ function renderThreePhotos(event) {
   displayPhotos();
   console.log(photosOnScreen[event.target.id]);
   count++;
-  if(count === 25) {
+  if(count >= 25) {
     displayChart();
     displayChartTwo();
-    // alert('All done!');
   }
 }
 
 function displayChart() {
-  console.log('display-chart-running')
   var chartLabel = [];
   var clicks = [];
   var displays = [];
@@ -143,4 +136,3 @@ displayPhotos();
 
 var photoClick = document.getElementById('image-container');
 photoClick.addEventListener('click', renderThreePhotos);
- 
