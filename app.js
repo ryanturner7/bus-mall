@@ -1,8 +1,5 @@
 'use strict';
 
-console.log('it works!');
-
-// make a constructor for photo
 function Photo(name, filename){
   this.name = name;
   this.src = './img/' + filename;
@@ -89,10 +86,6 @@ function getThreeRandomPhotos(){
 function renderThreePhotos(threeImages) {
   if(count >= 25) {
 
-
-    alert('All done!');
-
-
   } else {
     var container = document.createElement('div');
     container.setAttribute('id', 'container');
@@ -115,7 +108,6 @@ function renderThreePhotos(threeImages) {
       img = document.getElementById(i);
       img.addEventListener('click', threeImages[i].onClick.bind(threeImages[i]));
     }
-
     count++;
   }
 }
