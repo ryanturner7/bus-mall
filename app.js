@@ -143,3 +143,4 @@ displayPhotos();
 
 var photoClick = document.getElementById('image-container');
 photoClick.addEventListener('click', renderThreePhotos);
+ 
