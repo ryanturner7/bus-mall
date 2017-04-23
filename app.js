@@ -50,7 +50,7 @@ function displayPhotos() {
   for (var i = 0; i < 3; i++) {
     var nextPhoto = photos.splice(getRandomIndex(photos), 1);
     photosOnScreen = photosOnScreen.concat(nextPhoto);
-    el = document.getElementById('' + i);
+    el = document.getElementById('' + i );
 
     el.src = nextPhoto[0].src;
     nextPhoto[0].displayed++;
@@ -58,12 +58,11 @@ function displayPhotos() {
 }
 
 function renderThreePhotos(event) {
-  console.log(event);
   photosOnScreen[event.target.id].clickCount++;
   displayPhotos();
-  console.log(photosOnScreen[event.target.id]);
+
   count++;
-  if(count === 25) {
+  if(count >= 25) {
     displayChart();
     displayChartTwo();
   }
@@ -102,7 +101,6 @@ function getChart(){
 }
 
 function displayChart() {
-  console.log('display-chart-running');
   var chart = getChart();
   var canvas = document.getElementById('chart-canvas1');
   var ctx = canvas.getContext('2d');
@@ -110,7 +108,7 @@ function displayChart() {
     labels: chart.chartLabel,
     datasets:[{
       label: 'Clicks',
-      backgroundColor:'#42826C',
+      backgroundColor:'#15D0A6',
       borderColor: '#002F32',
       borderWidth: 1,
       data: chart.clicks},
@@ -157,12 +155,10 @@ function displayChartTwo() {
   });
 }
 
-
 var localChart = localStorage.getItem('chart');
 
 if(localChart) {
   displayChart();
-  displayChartTwo();
 } else {
   displayPhotos();
   var photoClick = document.getElementById('image-container');

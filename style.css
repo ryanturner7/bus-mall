@@ -7,7 +7,8 @@
 
 html, body {
   height: 100%;
-  background: beige;
+  background: #C4DFE3;
+  text-align: center;
 }
 
 .app {
@@ -25,7 +26,23 @@ canvas {
   width: 500px;
   height: 500px;
   border: 1px dotted blue;
+  border-color: black;
+}
+/*#title {
+  position: fixed;
+  display: block;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.2);
+}
+#title {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.1);
+}*/
 
+
+}
+.chart-bar {
+  color: #15D0A6;
 }
 
 #container{
