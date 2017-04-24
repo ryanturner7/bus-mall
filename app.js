@@ -64,7 +64,7 @@ function renderThreePhotos(event) {
   count++;
   if(count >= 25) {
     displayChart();
-    displayChartTwo();
+    // displayChartTwo();
   }
 }
 
@@ -108,7 +108,7 @@ function displayChart() {
     labels: chart.chartLabel,
     datasets:[{
       label: 'Clicks',
-      backgroundColor:'#15D0A6',
+      backgroundColor:'#DC29AE',
       borderColor: '#002F32',
       borderWidth: 1,
       data: chart.clicks},

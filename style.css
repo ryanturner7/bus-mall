@@ -7,7 +7,7 @@
 
 html, body {
   height: 100%;
-  background: #C4DFE3;
+  background: #15D0A6;
   text-align: center;
 }
 
@@ -27,19 +27,6 @@ canvas {
   height: 500px;
   border: 1px dotted blue;
   border-color: black;
-}
-/*#title {
-  position: fixed;
-  display: block;
-  width: 100%;
-  color: rgba(0, 0, 0, 0.2);
-}
-#title {
-  display: block;
-  background-color: rgba(0, 0, 0, 0.1);
-}*/
-
-
 }
 .chart-bar {
   color: #15D0A6;
